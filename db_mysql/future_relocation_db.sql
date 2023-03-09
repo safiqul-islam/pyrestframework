@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2023 at 06:39 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Mar 09, 2023 at 05:23 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `auth_group` (
   `id` int(11) NOT NULL,
   `name` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -42,7 +42,7 @@ CREATE TABLE `auth_group_permissions` (
   `id` bigint(20) NOT NULL,
   `group_id` int(11) NOT NULL,
   `permission_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -55,7 +55,7 @@ CREATE TABLE `auth_permission` (
   `name` varchar(255) NOT NULL,
   `content_type_id` int(11) NOT NULL,
   `codename` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `auth_permission`
@@ -85,7 +85,11 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 (21, 'Can add session', 6, 'add_session'),
 (22, 'Can change session', 6, 'change_session'),
 (23, 'Can delete session', 6, 'delete_session'),
-(24, 'Can view session', 6, 'view_session');
+(24, 'Can view session', 6, 'view_session'),
+(25, 'Can add product', 7, 'add_product'),
+(26, 'Can change product', 7, 'change_product'),
+(27, 'Can delete product', 7, 'delete_product'),
+(28, 'Can view product', 7, 'view_product');
 
 -- --------------------------------------------------------
 
@@ -105,14 +109,14 @@ CREATE TABLE `auth_user` (
   `is_staff` tinyint(1) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `date_joined` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `auth_user`
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$390000$aFe2E3LPr8R7uWaykpPRaE$3YKP4+NMHgYvbqZLBAYxbnGIxKN27UcxcCjlqsN87Kw=', '2023-03-08 17:24:28.571624', 1, 'admin', '', '', '', 1, 1, '2023-03-08 05:27:03.489479');
+(1, 'pbkdf2_sha256$390000$aFe2E3LPr8R7uWaykpPRaE$3YKP4+NMHgYvbqZLBAYxbnGIxKN27UcxcCjlqsN87Kw=', '2023-03-09 03:34:35.790416', 1, 'admin', '', '', '', 1, 1, '2023-03-08 05:27:03.489479');
 
 -- --------------------------------------------------------
 
@@ -124,7 +128,7 @@ CREATE TABLE `auth_user_groups` (
   `id` bigint(20) NOT NULL,
   `user_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -136,7 +140,7 @@ CREATE TABLE `auth_user_user_permissions` (
   `id` bigint(20) NOT NULL,
   `user_id` int(11) NOT NULL,
   `permission_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -153,7 +157,7 @@ CREATE TABLE `django_admin_log` (
   `change_message` longtext NOT NULL,
   `content_type_id` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -165,7 +169,7 @@ CREATE TABLE `django_content_type` (
   `id` int(11) NOT NULL,
   `app_label` varchar(100) NOT NULL,
   `model` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `django_content_type`
@@ -177,6 +181,7 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (2, 'auth', 'permission'),
 (4, 'auth', 'user'),
 (5, 'contenttypes', 'contenttype'),
+(7, 'firstapp', 'product'),
 (6, 'sessions', 'session');
 
 -- --------------------------------------------------------
@@ -190,7 +195,7 @@ CREATE TABLE `django_migrations` (
   `app` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `django_migrations`
@@ -214,7 +219,8 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (15, 'auth', '0010_alter_group_name_max_length', '2023-03-08 05:26:20.139496'),
 (16, 'auth', '0011_update_proxy_permissions', '2023-03-08 05:26:20.170750'),
 (17, 'auth', '0012_alter_user_first_name_max_length', '2023-03-08 05:26:20.287175'),
-(18, 'sessions', '0001_initial', '2023-03-08 05:26:20.349673');
+(18, 'sessions', '0001_initial', '2023-03-08 05:26:20.349673'),
+(19, 'firstapp', '0001_initial', '2023-03-09 03:42:48.281780');
 
 -- --------------------------------------------------------
 
@@ -226,7 +232,7 @@ CREATE TABLE `django_session` (
   `session_key` varchar(40) NOT NULL,
   `session_data` longtext NOT NULL,
   `expire_date` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `django_session`
@@ -236,6 +242,31 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 ('l913xw0i6a6wa2tj5dsbh9lhhyo5vc5g', '.eJxVjDsOAiEUAO9CbQi_B2Jp7xkIvAeyaiBZdivj3Q3JFtrOTObNQty3GvaR17AQuzDJTr8sRXzmNgU9Yrt3jr1t65L4TPhhB791yq_r0f4Nahx1blNxkK0AdBKT1qSUFfEMJlHxxqPNrhiJAIBWFsygqDgPSToBWtnIPl_gvzel:1pZmKg:yR0gJKEd3w-0HB6-vKNDyQPC-n9_ITZot2t-v07NwwM', '2023-03-22 05:27:22.008552'),
 ('r2xdljpp91y3q41reb94w4s55fzb15sm', '.eJxVjDsOAiEUAO9CbQi_B2Jp7xkIvAeyaiBZdivj3Q3JFtrOTObNQty3GvaR17AQuzDJTr8sRXzmNgU9Yrt3jr1t65L4TPhhB791yq_r0f4Nahx1blNxkK0AdBKT1qSUFfEMJlHxxqPNrhiJAIBWFsygqDgPSToBWtnIPl_gvzel:1pZxSr:TWi-K1_Y8G30KCfoH481IwzaKf3Ll5THycHkpgIxM5E', '2023-03-22 17:20:33.615358'),
 ('zn9sryg113o28v03nxh0ifnd3d76b1qz', '.eJxVjDsOAiEUAO9CbQi_B2Jp7xkIvAeyaiBZdivj3Q3JFtrOTObNQty3GvaR17AQuzDJTr8sRXzmNgU9Yrt3jr1t65L4TPhhB791yq_r0f4Nahx1blNxkK0AdBKT1qSUFfEMJlHxxqPNrhiJAIBWFsygqDgPSToBWtnIPl_gvzel:1pZxWe:adXuDtbFSYlSXPgPqIrsvyfy57kbdxEEdMK0uR9ciew', '2023-03-22 17:24:28.574637');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `firstapp_product`
+--
+
+CREATE TABLE `firstapp_product` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `slug` varchar(20) NOT NULL,
+  `price` decimal(20,4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `firstapp_product`
+--
+
+INSERT INTO `firstapp_product` (`id`, `name`, `slug`, `price`) VALUES
+(1, 'frist product', 'first-product', '123.1230'),
+(2, 'second product', 'second-product', '123.1230'),
+(3, 'third product', 'third-product', '123.1230'),
+(4, 'forth product', 'forth-product', '123.1230'),
+(5, 'fifth product', 'fifth-product', '500.5000'),
+(6, 'sixth product', 'sixth-product', '1000.1230');
 
 --
 -- Indexes for dumped tables
@@ -315,6 +346,12 @@ ALTER TABLE `django_session`
   ADD KEY `django_session_expire_date_a5c62663` (`expire_date`);
 
 --
+-- Indexes for table `firstapp_product`
+--
+ALTER TABLE `firstapp_product`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -334,7 +371,7 @@ ALTER TABLE `auth_group_permissions`
 -- AUTO_INCREMENT for table `auth_permission`
 --
 ALTER TABLE `auth_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `auth_user`
@@ -364,13 +401,19 @@ ALTER TABLE `django_admin_log`
 -- AUTO_INCREMENT for table `django_content_type`
 --
 ALTER TABLE `django_content_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `firstapp_product`
+--
+ALTER TABLE `firstapp_product`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
